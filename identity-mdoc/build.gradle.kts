@@ -18,6 +18,7 @@ kotlin {
     jvm()
 
     androidTarget {
+        publishLibraryVariants("release")
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
@@ -115,6 +116,7 @@ version = projectVersionName
 
 publishing {
     repositories {
+        mavenLocal()
         maven {
             url = uri("${rootProject.rootDir}/repo")
         }

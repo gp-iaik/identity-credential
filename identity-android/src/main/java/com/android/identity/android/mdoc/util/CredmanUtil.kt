@@ -81,38 +81,6 @@ object CredmanUtil {
     //      AndroidHandover // defined below
     //    ]
     //
-    //    AndroidHandover = [
-    //      "AndroidHandoverv1", // Version number
-    //      nonce, // nonce that comes from request
-    //      appId, // RP package name
-    //      pkRHash, // The SHA256 hash of the recipient public key.
-    //    ]
-    fun generateAndroidSessionTranscript(
-        nonce: ByteArray,
-        packageName: String,
-        requesterIdHash: ByteArray
-    ): ByteArray {
-        return Cbor.encode(
-            CborArray.builder()
-                .add(Simple.NULL) // DeviceEngagementBytes
-                .add(Simple.NULL) // EReaderKeyBytes
-                .addArray() // AndroidHandover
-                .add(ANDROID_HANDOVER_V1)
-                .add(nonce)
-                .add(packageName.toByteArray())
-                .add(requesterIdHash)
-                .end()
-                .end()
-                .build()
-        )
-    }
-
-    //    SessionTranscript = [
-    //      null, // DeviceEngagementBytes not available
-    //      null, // EReaderKeyBytes not available
-    //      AndroidHandover // defined below
-    //    ]
-    //
     //    From https://github.com/WICG/mobile-document-request-api
     //
     //    BrowserHandover = [
@@ -148,6 +116,38 @@ object CredmanUtil {
                 .add(BROWSER_HANDOVER_V1)
                 .add(nonce)
                 .add(originInfoBytes)
+                .add(requesterIdHash)
+                .end()
+                .end()
+                .build()
+        )
+    }
+
+    //    SessionTranscript = [
+    //      null, // DeviceEngagementBytes not available
+    //      null, // EReaderKeyBytes not available
+    //      AndroidHandover // defined below
+    //    ]
+    //
+    //    AndroidHandover = [
+    //      "AndroidHandoverv1", // Version number
+    //      nonce, // nonce that comes from request
+    //      appId, // RP package name
+    //      pkRHash, // The SHA256 hash of the recipient public key.
+    //    ]
+    fun generateAndroidSessionTranscript(
+        nonce: ByteArray,
+        packageName: String,
+        requesterIdHash: ByteArray
+    ): ByteArray {
+        return Cbor.encode(
+            CborArray.builder()
+                .add(Simple.NULL) // DeviceEngagementBytes
+                .add(Simple.NULL) // EReaderKeyBytes
+                .addArray() // AndroidHandover
+                .add(ANDROID_HANDOVER_V1)
+                .add(nonce)
+                .add(packageName.toByteArray())
                 .add(requesterIdHash)
                 .end()
                 .end()

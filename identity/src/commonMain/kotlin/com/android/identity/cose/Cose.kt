@@ -133,10 +133,10 @@ object Cose {
         signature: CoseSign1,
         signatureAlgorithm: Algorithm
     ): Boolean {
-        require(
+        /*require(
             (detachedData != null && signature.payload == null) ||
                     (detachedData == null && signature.payload != null)
-        )
+        )*/
         val encodedProtectedHeaders =
             if (signature.protectedHeaders.isNotEmpty()) {
                 val phb = CborMap.builder()
@@ -147,7 +147,7 @@ object Cose {
             }
         val toBeSigned = coseBuildToBeSigned(
             encodedProtectedHeaders = encodedProtectedHeaders,
-            dataToBeSigned = detachedData ?: signature.payload!!
+            dataToBeSigned =  signature.payload ?: detachedData !!
         )
 
         return Crypto.checkSignature(

@@ -45,4 +45,4 @@ dependencies {
     testImplementation(libs.junit)
 }
 
-gretty {}
+gretty {httpsEnabled  = true}

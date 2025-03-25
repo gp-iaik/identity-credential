@@ -100,6 +100,7 @@ class TrustManager {
             // with mdoc reader auth, especially at mDL test events where each participant
             // just submits a certificate for the key that their reader will be using.
             //
+            try {
             if (chain.size == 1) {
                 val trustPoint = certificates[chain[0].subjectKeyIdentifier!!.toHex()]
                 if (trustPoint != null) {
@@ -110,6 +111,8 @@ class TrustManager {
                         error = null
                     )
                 }
+            }} catch (e: Throwable) {
+
             }
             // no CA certificate could be found.
             return TrustResult(

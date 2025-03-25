@@ -898,7 +898,7 @@ private data class DocumentData(
 
             if (document.issuerSignedAuthenticated) {
                 val trustResult = issuerTrustManager.verify(document.issuerCertificateChain.certificates)
-                if (trustResult.isTrusted) {
+                if (trustResult.isTrusted && trustResult.trustPoints.isNotEmpty()) {
                     infos.add("Issuer '${trustResult.trustPoints[0].displayName}' is in a trust list")
                 } else {
                     warnings.add("Issuer is not in trust list")

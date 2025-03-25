@@ -23,6 +23,7 @@ kotlin {
     jvm()
 
     androidTarget {
+        publishLibraryVariants("release")
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
@@ -114,6 +115,7 @@ kotlin {
 
         val androidMain by getting {
             dependsOn(javaSharedMain)
+
             dependencies {
                 implementation(libs.bouncy.castle.bcprov)
                 implementation(libs.bouncy.castle.bcpkix)
@@ -190,6 +192,7 @@ tasks["iosSimulatorArm64SourcesJar"].dependsOn("kspCommonMainKotlinMetadata")
 tasks["jvmSourcesJar"].dependsOn("kspCommonMainKotlinMetadata")
 tasks["sourcesJar"].dependsOn("kspCommonMainKotlinMetadata")
 
+
 android {
     namespace = "com.android.identity"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -221,12 +224,16 @@ android {
     }
 }
 
-
+afterEvaluate{
+tasks["androidDebugSourcesJar"].dependsOn("kspCommonMainKotlinMetadata")
+tasks["androidReleaseSourcesJar"].dependsOn("kspCommonMainKotlinMetadata")
+}
 group = "com.android.identity"
 version = projectVersionName
 
 publishing {
     repositories {
+        mavenLocal()
         maven {
             url = uri("${rootProject.rootDir}/repo")
         }

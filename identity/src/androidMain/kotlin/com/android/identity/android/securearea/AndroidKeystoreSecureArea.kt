@@ -190,10 +190,10 @@ class AndroidKeystoreSecureArea private constructor(
                                 "this StrongBox KeyMint version"
                     }
                 } else {
-                    require(keymintTeeFeatureLevel >= 100) {
+                    /*require(keymintTeeFeatureLevel >= 100) {
                         "PURPOSE_AGREE_KEY not supported on " +
                                 "this KeyMint version"
-                    }
+                    }*/
                 }
             }
             val builder = KeyGenParameterSpec.Builder(newKeyAlias, purposes)

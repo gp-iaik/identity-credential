@@ -214,7 +214,9 @@ async function requestDocument(format, docType, requestId) {
 
 async function dcRequestCredential(sessionId, dcRequestProtocol, dcRequest) {
     try {
-        const credentialResponse = await navigator.identity.get({
+        console.log(dcRequestProtocol)
+        console.log(dcRequest)
+        const credentialResponse = await navigator.credentials.get({
             digital: {
                 providers: [{
                     protocol: dcRequestProtocol,
@@ -225,6 +227,7 @@ async function dcRequestCredential(sessionId, dcRequestProtocol, dcRequest) {
           })
         dcProcessResponse(sessionId, credentialResponse)
     } catch (err) {
+        console.log(err)
         alert(err)
     }
 }

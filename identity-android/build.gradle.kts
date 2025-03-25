@@ -67,6 +67,8 @@ publishing {
     }
     publications {
         create<MavenPublication>("release") {
+            //groupId ="org.gradle.sample"
+            artifactId = "identity-not-kmp-android"
             afterEvaluate {
                 from(components["release"])
             }
