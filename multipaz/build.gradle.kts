@@ -23,6 +23,7 @@ kotlin {
     jvm()
 
     androidTarget {
+        publishLibraryVariants("release")
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
@@ -182,6 +183,11 @@ kotlin {
     }
 }
 
+afterEvaluate{
+    tasks["androidDebugSourcesJar"].dependsOn("kspCommonMainKotlinMetadata")
+    tasks["androidReleaseSourcesJar"].dependsOn("kspCommonMainKotlinMetadata")
+}
+
 dependencies {
     add("kspCommonMainMetadata", project(":multipaz-cbor-rpc"))
     add("kspJvmTest", project(":multipaz-cbor-rpc"))
@@ -240,6 +246,7 @@ version = projectVersionName
 
 publishing {
     repositories {
+        mavenLocal()
         maven {
             url = uri("${rootProject.rootDir}/repo")
         }

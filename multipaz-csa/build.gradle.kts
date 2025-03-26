@@ -4,6 +4,10 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
+if (true) {
+
+}
+
 kotlin {
     jvmToolchain(17)
 }
@@ -18,6 +22,8 @@ dependencies {
     implementation(libs.kotlinx.datetime)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.io.bytestring)
+
+
 
     implementation(project(":multipaz-cbor-rpc-annotations"))
     ksp(project(":multipaz-cbor-rpc"))

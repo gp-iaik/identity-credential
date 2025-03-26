@@ -11,6 +11,9 @@ kotlin {
     jvmToolchain(17)
 }
 
+
+
+
 android {
     namespace = "com.android.identity"
     compileSdk = libs.versions.android.compileSdk.get().toInt()

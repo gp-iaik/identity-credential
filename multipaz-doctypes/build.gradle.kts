@@ -68,6 +68,7 @@ version = projectVersionName
 
 publishing {
     repositories {
+        mavenLocal()
         maven {
             url = uri("${rootProject.rootDir}/repo")
         }

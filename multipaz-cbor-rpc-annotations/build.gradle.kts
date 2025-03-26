@@ -6,6 +6,9 @@ plugins {
 val projectVersionCode: Int by rootProject.extra
 val projectVersionName: String by rootProject.extra
 
+
+
+
 kotlin {
     jvmToolchain(17)
 
