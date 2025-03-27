@@ -5,12 +5,22 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.ksp)
+
+    id("maven-publish")
 }
+
+val projectVersionCode: Int by rootProject.extra
+val projectVersionName: String by rootProject.extra
+group = "org.multipaz"
+version = projectVersionName
 
 kotlin {
     jvmToolchain(17)
 
     androidTarget {
+        publishLibraryVariants("release")
+
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
@@ -82,6 +92,50 @@ android {
         resources {
             excludes += listOf("/META-INF/{AL2.0,LGPL2.1}")
             excludes += listOf("/META-INF/versions/9/OSGI-INF/MANIFEST.MF")
+        }
+    }
+}
+
+android {
+    namespace = "org.multipaz.models"
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
+
+    defaultConfig {
+        minSdk = 26
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    dependencies {
+    }
+
+    packaging {
+        resources {
+            excludes += listOf("/META-INF/{AL2.0,LGPL2.1}")
+            excludes += listOf("/META-INF/versions/9/OSGI-INF/MANIFEST.MF")
+        }
+    }
+}
+
+
+publishing {
+    repositories {
+        mavenLocal()
+        maven {
+            url = uri("${rootProject.rootDir}/repo")
+        }
+    }
+    publications.withType(MavenPublication::class) {
+        pom {
+            licenses {
+                license {
+                    name = "Apache 2.0"
+                    url = "https://opensource.org/licenses/Apache-2.0"
+                }
+            }
         }
     }
 }

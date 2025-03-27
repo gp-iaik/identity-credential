@@ -8,12 +8,18 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    id("maven-publish")
+
 }
+val projectVersionCode: Int by rootProject.extra
+val projectVersionName: String by rootProject.extra
 
 kotlin {
     jvmToolchain(17)
 
     androidTarget {
+        publishLibraryVariants("release")
+
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
 
@@ -81,6 +87,9 @@ kotlin {
     }
 }
 
+
+
+
 android {
     namespace = "org.multipaz.compose"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -105,6 +114,29 @@ android {
         resources {
             excludes += listOf("/META-INF/{AL2.0,LGPL2.1}")
             excludes += listOf("/META-INF/versions/9/OSGI-INF/MANIFEST.MF")
+        }
+    }
+}
+
+group = "org.multipaz"
+version = projectVersionName
+
+
+publishing {
+    repositories {
+        mavenLocal()
+        maven {
+            url = uri("${rootProject.rootDir}/repo")
+        }
+    }
+    publications.withType(MavenPublication::class) {
+        pom {
+            licenses {
+                license {
+                    name = "Apache 2.0"
+                    url = "https://opensource.org/licenses/Apache-2.0"
+                }
+            }
         }
     }
 }
